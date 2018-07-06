@@ -1,0 +1,378 @@
+﻿@{
+    //Titulos em geral
+    ViewBag.Desenvolvedor = "JC Consulting TI";
+    ViewBag.Sistema = "Portal Winerie";
+}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Titulo :: @ViewBag.Sistema - @ViewBag.Versao</title>
+    <!-- Bootstrap -->
+    <link href="~/Scripts/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/Scripts/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="~/Scripts/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-progressbar -->
+    <link href="~/Scripts/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- jVectorMap -->
+    <link href="~/Content/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet" />
+    <!-- Datatables -->
+    <link href="~/Scripts/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Scripts/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Scripts/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Scripts/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Scripts/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="~/Content/css/custom.css" rel="stylesheet">
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="index.html" class="site_title"><i class="fa fa-vine"></i> <span>Portal Winerie</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <div class="profile">
+                        <div class="profile_pic">
+                            <!-- <img src="images/img.jpg" alt="..." class="img-circle profile_img"> -->
+                        </div>
+                        <div class="profile_info">
+                            <span>Bem Vindo,</span>
+                            <h2>@User.Identity.Name.Split('|')[3].Split(':')[1]</h2>
+                            @*<h2>@User.Identity.Name</h2>*@
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <!-- <h3>General</h3> -->
+                            <br />
+                            <br />
+                            <br />
+                            <ul class="nav side-menu">
+                                @if (User.IsInRole("ADMIN"))
+                                {
+                                    <li>
+                                        <a><i class="fa fa-edit"></i> Cadastros <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("Index", "Usuario")">Usuários</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                <li>
+                                    <a><i class="fa fa-search"></i> Pesquisar <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Index", "Pedidos")">Pedidos</a></li>
+                                        <li><a href="@Url.Action("Index", "NotasFiscais")">Notas Fiscais</a></li>
+                                    </ul>
+                                </li>
+                                @if (User.IsInRole("ADMIN"))
+                                {
+                                    <li>
+                                        <a><i class="fa fa-sliders"></i> Configurações <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("Index", "Configuracoes")">Painel de Controle</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                </div>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav class="" role="navigation">
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="~/images/user.png" alt="">
+                                    @User.Identity.Name.Split('|')[3].Split(':')[1]
+                                    <span class="fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a href="@Url.Action("Logout", "Login")"><i class="fa fa-sign-out pull-right"></i> Sair</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3></h3>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    &copy; @DateTime.Now.Year
+                    <a href="http://www.jcconsultingti.com.br" target="_blank">@ViewBag.Desenvolvedor</a>
+                    - <i>@ViewBag.Versao</i>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="~/Scripts/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Scripts/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/Scripts/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/Scripts/vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="~/Scripts/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/Scripts/vendors/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="~/Scripts/vendors/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="~/Scripts/vendors/Flot/jquery.flot.js"></script>
+    <script src="~/Scripts/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="~/Scripts/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="~/Scripts/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="~/Scripts/vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="~/Scripts/js/flot/jquery.flot.orderBars.js"></script>
+    <script src="~/Scripts/js/flot/date.js"></script>
+    <script src="~/Scripts/js/flot/jquery.flot.spline.js"></script>
+    <script src="~/Scripts/js/flot/curvedLines.js"></script>
+    <!-- jVectorMap -->
+    <script src="~/Scripts/js/maps/jquery-jvectormap-2.0.3.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/Scripts/js/moment/moment.min.js"></script>
+    <script src="~/Scripts/js/datepicker/daterangepicker.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="~/Scripts/js/custom.js"></script>
+    <!-- Flot -->
+    <script>
+        $(document).ready(function () {
+            var data1 = [
+              [gd(2012, 1, 1), 17],
+              [gd(2012, 1, 2), 74],
+              [gd(2012, 1, 3), 6],
+              [gd(2012, 1, 4), 39],
+              [gd(2012, 1, 5), 20],
+              [gd(2012, 1, 6), 85],
+              [gd(2012, 1, 7), 7]
+            ];
+
+            var data2 = [
+              [gd(2012, 1, 1), 82],
+              [gd(2012, 1, 2), 23],
+              [gd(2012, 1, 3), 66],
+              [gd(2012, 1, 4), 9],
+              [gd(2012, 1, 5), 119],
+              [gd(2012, 1, 6), 6],
+              [gd(2012, 1, 7), 9]
+            ];
+            $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
+              data1, data2
+            ], {
+                series: {
+                    lines: {
+                        show: false,
+                        fill: true
+                    },
+                    splines: {
+                        show: true,
+                        tension: 0.4,
+                        lineWidth: 1,
+                        fill: 0.4
+                    },
+                    points: {
+                        radius: 0,
+                        show: true
+                    },
+                    shadowSize: 2
+                },
+                grid: {
+                    verticalLines: true,
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#d5d5d5",
+                    borderWidth: 1,
+                    color: '#fff'
+                },
+                colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
+                xaxis: {
+                    tickColor: "rgba(51, 51, 51, 0.06)",
+                    mode: "time",
+                    tickSize: [1, "day"],
+                    //tickLength: 10,
+                    axisLabel: "Date",
+                    axisLabelUseCanvas: true,
+                    axisLabelFontSizePixels: 12,
+                    axisLabelFontFamily: 'Verdana, Arial',
+                    axisLabelPadding: 10
+                },
+                yaxis: {
+                    ticks: 8,
+                    tickColor: "rgba(51, 51, 51, 0.06)",
+                },
+                tooltip: false
+            });
+
+            function gd(year, month, day) {
+                return new Date(year, month - 1, day).getTime();
+            }
+        });
+    </script>
+    <!-- /Flot -->
+    <!-- jVectorMap -->
+    <script src="~/Scripts/js/maps/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/Scripts/js/maps/jquery-jvectormap-us-aea-en.js"></script>
+    <script src="~/Scripts/js/maps/gdp-data.js"></script>
+    <!-- Datatables -->
+    <script src="~/Scripts/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/Scripts/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
+    <script src="~/Scripts/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="~/Scripts/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/Scripts/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <script>
+        $(document).ready(function () {
+            var handleDataTableButtons = function () {
+                if ($("#datatable-export").length) {
+                    $("#datatable-export").DataTable({
+                        dom: "Bfrtip",
+                        language: {
+                            "emptyTable": "Nenhum registro disponível",
+                            "info": "Exibindo _START_ de _END_ para _TOTAL_ registros",
+                            "infoEmpty": "Exibindo 0 de 0 para 0 registros",
+                            "infoFiltered": "(Pesquisado em _MAX_ registros)",
+                            "infoPostFix": "",
+                            "lengthMenu": "Exibir _MENU_ registros",
+                            "loadingRecords": "Aguarde...",
+                            "processing": "Processando...",
+                            "search": "Pesquisar:",
+                            "zeroRecords": "Nenhum registro encontrado",
+                            "paginate": {
+                                "first": "Primeiro",
+                                "previous": "Anterior",
+                                "next": "Próximo",
+                                "last": "Último"
+                            },
+                            "aria": {
+                                "sortAscending": ": Coluna ordem crescente",
+                                "sortDescending": ": Coluna ordem decrescente"
+                            },
+                            "decimal": ",",
+                            "thousands": "."
+                        },
+                        buttons: [
+                          {
+                              extend: "copy",
+                              text: "Copiar",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "csv",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "excel",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "pdfHtml5",
+                              className: "btn-sm"
+                          },
+                          {
+                              extend: "print",
+                              text: "Imprimir",
+                              className: "btn-sm"
+                          },
+                        ],
+                        responsive: true
+                    });
+                }
+            };
+
+            var handleDataTablePagination = function () {
+                if ($("#datatable-pagination").length) {
+                    $("#datatable-pagination").DataTable({
+                        dom: "Bfrtip",
+                        language: {
+                            "emptyTable": "Nenhum registro disponível",
+                            "info": "Exibindo _START_ de _END_ para _TOTAL_ registros",
+                            "infoEmpty": "Exibindo 0 de 0 para 0 registros",
+                            "infoFiltered": "(Pesquisado em _MAX_ registros)",
+                            "infoPostFix": "",
+                            "lengthMenu": "Exibir _MENU_ registros",
+                            "loadingRecords": "Aguarde...",
+                            "processing": "Processando...",
+                            "search": "Pesquisar:",
+                            "zeroRecords": "Nenhum registro encontrado",
+                            "paginate": {
+                                "first": "Primeiro",
+                                "previous": "Anterior",
+                                "next": "Próximo",
+                                "last": "Último"
+                            },
+                            "aria": {
+                                "sortAscending": ": Coluna ordem crescente",
+                                "sortDescending": ": Coluna ordem decrescente"
+                            },
+                            "decimal": ",",
+                            "thousands": "."
+                        },
+                        buttons: [],
+                        responsive: true
+                    });
+                }
+            };
+
+            TableManageButtons = function () {
+                "use strict";
+                return {
+                    init: function () {
+                        handleDataTableButtons();
+                        handleDataTablePagination();
+                    }
+                };
+            }();
+
+            TableManageButtons.init();
+        });
+    </script>
+    <!-- /Datatables -->
+</body>
+</html>

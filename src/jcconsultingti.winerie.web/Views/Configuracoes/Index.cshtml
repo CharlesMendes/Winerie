@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Titulo = "Configurações";
+    ViewBag.TituloPagina = "Painel de Controle";
+
+    //Nomes de botões
+    ViewBag.ZerarBase = "Limpar a Base de Dados";
+    ViewBag.Conciliar = "Iniciar Conciliação";
+    ViewBag.Importar = "Importar Planilhas";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.TituloPagina</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <!-- start accordion -->
+                <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                    <div class="panel">
+                        <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <input type="button" value="@ViewBag.ZerarBase" onclick="location.href='@Url.Action("ZerarBase", "Configuracoes")'" class="btn btn-danger" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of accordion -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+﻿@model jcconsultingti.winerie.model.tiny.PesquisarPedidos
+
+@{
+    ViewBag.Titulo = "Produtos";
+    ViewBag.TituloPagina = "Detalhes do Pedido: ";
+    ViewBag.ErroApi = "Erro ao processar API Tiny";
+
+    //Nomes de botões
+    ViewBag.Exportar = "Exportar TXT";
+    ViewBag.Voltar = "Voltar";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <a href="@Url.Action("Index", "Pedidos")" class="btn btn-info"><i class="fa fa-undo"></i> @ViewBag.Voltar</a>
+        <a href="@Url.Action("DownloadPorId", "Pedidos", new { id = @Model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.numero })" class="btn btn-primary"><i class="fa fa-download"></i> @ViewBag.Exportar</a>
+
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>@ViewBag.TituloPagina @Model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.numero_ordem_compra</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <!-- start accordion -->
+                <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                    <div class="panel">
+                        <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                <div class="well">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.id)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.id)</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.nome)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.nome)</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.cpf_cnpj)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.cpf_cnpj)</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.endereco)</b>
+                                            <p>
+                                                @Html.Raw(string.Format("{0} {1} - {2} - {3} - {4}/{5} - CEP: {6}",
+                                                Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.endereco),
+                                                Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.numero),
+                                                Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.complemento),
+                                                Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.bairro),
+                                                Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.cidade),
+                                                Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.uf),
+                                                Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.cep)
+                                            ))
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>
+                                                @Html.Raw(string.Format("{0} / {1}",
+                                                Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.fone),
+                                                Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.email)))
+                                            </b>
+                                            <p>
+                                                @Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.fone)
+                                                / @Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.cliente.email)
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <b>
+                                                @Html.Raw(string.Format("{0} / {1}",
+                                                Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.nome_transportador),
+                                                Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.valor_frete)))
+                                            </b>
+                                            <p>
+                                                @Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.nome_transportador)
+                                                / @Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.valor_frete)
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.nome_vendedor)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.nome_vendedor)</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.forma_pagamento)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.forma_pagamento)</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.total_pedido)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.total_pedido)</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.total_produtos)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.total_produtos)</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.valor_desconto)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.valor_desconto)</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.data_pedido)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.data_pedido)</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.data_prevista)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.data_prevista)</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <b>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.obs)</b>
+                                            <p>@Html.DisplayFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.obs)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="datatable-export" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.itens.FirstOrDefault().item.codigo)</th>
+                                            <th>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.itens.FirstOrDefault().item.descricao)</th>
+                                            <th>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.itens.FirstOrDefault().item.unidade)</th>
+                                            <th>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.itens.FirstOrDefault().item.quantidade)</th>
+                                            <th>@Html.DisplayNameFor(model => model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.itens.FirstOrDefault().item.valor_unitario)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var produto in Model.retorno.pedidos.FirstOrDefault().detalhes.retorno.pedido.itens)
+                                        {
+                                            <tr>
+                                                <th scope="row">@Html.DisplayFor(modelItem => produto.item.codigo)</th>
+                                                <td>@Html.DisplayFor(modelItem => produto.item.descricao)</td>
+                                                <td>@Html.DisplayFor(modelItem => produto.item.unidade)</td>
+                                                <td>@Html.DisplayFor(modelItem => produto.item.quantidade)</td>
+                                                <td>@Html.DisplayFor(modelItem => produto.item.valor_unitario)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of accordion -->
+            </div>
+        </div>
+    </div>
+</div>

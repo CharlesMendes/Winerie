@@ -1,0 +1,96 @@
+﻿@model jcconsultingti.winerie.model.Usuario
+
+@{
+    ViewBag.Titulo = "Usuario";
+    ViewBag.TituloPagina = "Editar Usuário";
+
+    //Nomes de botões
+    ViewBag.Salvar = "Salvar";
+    ViewBag.Voltar = "Voltar";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        @using (Html.BeginForm("Editar", "Usuario",
+                                    new { ReturnUrl = ViewBag.ReturnUrl },
+                                    FormMethod.Post, new { @class = "form-horizontal form-label-left", novalidate = "true" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <input type="button" value="@ViewBag.Voltar" onclick="location.href='@Url.Action("Index", "Usuario")'" class="btn" />
+                <input type="submit" value="@ViewBag.Salvar" class="btn btn-success" />
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>@ViewBag.TituloPagina</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="item form-group">
+                        @Html.LabelFor(model => model.nome, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.EditorFor(model => model.nome, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @required = "true" } })
+                            @Html.ValidationMessageFor(model => model.nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        @Html.LabelFor(model => model.login, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.EditorFor(model => model.login, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @required = "true" } })
+                            @Html.ValidationMessageFor(model => model.login, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        @Html.LabelFor(model => model.senha, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.PasswordFor(model => model.senha, htmlAttributes: new { @class = "form-control col-md-7 col-xs-12", @required = "true" })
+                            @Html.ValidationMessageFor(model => model.senha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        @Html.LabelFor(model => model.idLoja, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.DropDownListFor(model => model.idLoja, (SelectList)ViewBag.listaLoja, "Selecione...", htmlAttributes: new { @class = "form-control col-md-7 col-xs-12", @required = "true" })
+                            @Html.ValidationMessageFor(model => model.idLoja, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        @Html.LabelFor(model => model.idPerfilUsuario, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.DropDownListFor(model => model.idPerfilUsuario, (SelectList)ViewBag.listaPerfilUsuario, "Selecione...", htmlAttributes: new { @class = "form-control col-md-7 col-xs-12", @required = "true" })
+                            @Html.ValidationMessageFor(model => model.idPerfilUsuario, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12", @required = "true" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        @Html.LabelFor(model => model.isAtivo, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="checkbox col-md-6 col-sm-6 col-xs-12">
+                            @Html.EditorFor(model => model.isAtivo)
+                            @Html.ValidationMessageFor(model => model.isAtivo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

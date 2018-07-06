@@ -1,0 +1,145 @@
+﻿@model IEnumerable<jcconsultingti.winerie.model.tiny.PesquisarNotaFiscal>
+
+@{
+    ViewBag.Titulo = "Notas Fiscais";
+    ViewBag.TituloPagina = "Pesquisar Notas Fiscais";
+    ViewBag.AcaoTabela = "Ações";
+    ViewBag.ErroApi = "Erro ao processar API Tiny";
+
+    //Nomes de botões
+    ViewBag.Exportar = "Exportar Excel";
+    ViewBag.Atualizar = "Atualizar";
+
+    //Modal
+    ViewBag.Modal_Titulo = "Pesquisar";
+    ViewBag.Modal_SubTitulo = "Selecione algum filtro para a pesquisa";
+    ViewBag.Modal_Descricao = "Preencha os campos abaixo";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <a href="#" class="btn btn-info" data-toggle="modal" data-target=".modal-pesquisar"><i class="fa fa-search"></i> @ViewBag.Modal_Titulo</a>
+        <a href="@Url.Action("Download", "NotasFiscais", new { dataInicial = Model.FirstOrDefault().filtros.dataInicial, dataFinal = Model.FirstOrDefault().filtros.dataFinal })" class="btn btn-primary"><i class="fa fa-download"></i> @ViewBag.Exportar</a>
+
+        <!-- modal -->
+        @Html.Partial("_modalPesquisarNotasFiscais")
+        <!-- /modals -->
+
+        @if (Model.Count() > 0)
+        {
+            if (Model.FirstOrDefault().retorno.status_processamento.Equals(3) || Model.FirstOrDefault().retorno.erros.Count.Equals(0))
+            {
+                //Se ocorreu sucesso na consulta a API Tiny, carrega a pagina
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>@ViewBag.TituloPagina</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <!-- start accordion -->
+                        <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <table id="datatable-export" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.numero)</th>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.numero_ecommerce)</th>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.data_emissao)</th>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.cliente.nome)</th>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.cliente.cpf_cnpj)</th>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.valor_faturado)</th>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.transportador.nome)</th>
+                                                    <th>@Html.DisplayNameFor(model => model.retorno.nota_fiscal.descricao_situacao)</th>
+                                                    <th>@ViewBag.AcaoTabela</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model != null)
+                                                {
+                                                    if (Model.Count() > 0)
+                                                    {
+                                                        foreach (var itemNota in Model.FirstOrDefault().retorno.notas_fiscais)
+                                                        {
+                                                            <tr>
+                                                                <th scope="row">@Html.Raw(string.Format("{0} / {1}", Html.DisplayFor(modelItem => itemNota.nota_fiscal.numero), Html.DisplayFor(modelItem => itemNota.nota_fiscal.serie)))</th>
+                                                                <td>@Html.DisplayFor(modelItem => itemNota.detalhes.retorno.nota_fiscal.numero_ecommerce)</td>
+                                                                <td>@Html.DisplayFor(modelItem => itemNota.detalhes.retorno.nota_fiscal.data_emissao)</td>
+                                                                <td>@Html.DisplayFor(modelItem => itemNota.detalhes.retorno.nota_fiscal.cliente.nome)</td>
+                                                                <td>@Html.DisplayFor(modelItem => itemNota.detalhes.retorno.nota_fiscal.cliente.cpf_cnpj)</td>
+                                                                <td>@Html.DisplayFor(modelItem => itemNota.detalhes.retorno.nota_fiscal.valor_faturado)</td>
+                                                                <td>@Html.DisplayFor(modelItem => itemNota.detalhes.retorno.nota_fiscal.transportador.nome)</td>
+                                                                <td>@Html.DisplayFor(modelItem => itemNota.detalhes.retorno.nota_fiscal.descricao_situacao)</td>
+                                                                <td>
+                                                                    @*<a href="@Url.Action("Detalhe", "NotasFiscais", new { id = itemNota.detalhes.retorno.nota_fiscal.id })" class="btn btn-default btn-xs"><i class="fa fa-th-large"></i></a>*@
+                                                                    <a href="@Url.Action("DownloadPorId", "NotasFiscais", new { id = itemNota.detalhes.retorno.nota_fiscal.numero })" class="btn btn-primary btn-xs"><i class="fa fa-download"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of accordion -->
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>@ViewBag.ErroApi</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <!-- start accordion -->
+                        <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                            <div class="panel">
+                                <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @if (Model != null)
+                                                {
+                                                    if (Model.Count() > 0)
+                                                    {
+                                                        foreach (var erro in Model.FirstOrDefault().retorno.erros)
+                                                        {
+                                                            <p>@Html.DisplayFor(modelItem => erro.erro)</p>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end of accordion -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

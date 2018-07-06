@@ -1,0 +1,59 @@
+﻿@model IEnumerable<jcconsultingti.winerie.model.tiny.PesquisarNotaFiscal>
+
+@{
+    //Nomes de botões
+    ViewBag.Pesquisar = "Pesquisar";
+    ViewBag.Fechar = "Fechar";
+}
+
+<!-- modal -->
+<div class="modal fade modal-pesquisar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">@ViewBag.Modal_Titulo</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "NotasFiscais", FormMethod.Post, new { id = "frmPesquisar" }))
+                {
+                    @Html.ValidationSummary(true)
+
+                    @*<h4>@ViewBag.Modal_SubTitulo</h4>*@
+                    <p>@ViewBag.Modal_Descricao</p>
+
+                    <div class="row">
+                        <div class="item form-group">
+                            @Html.LabelFor(model => model.FirstOrDefault().filtros.numeroEcommerce, htmlAttributes: new { @class = "control-label col-md-3 col-xs-12" })
+                            <div class="col-md-3 col-xs-12">
+                                @Html.EditorFor(model => model.FirstOrDefault().filtros.numeroEcommerce, new { htmlAttributes = new { @class = "form-control col-md-12 col-xs-12" } })
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+
+                        <div class="item form-group">
+                            @Html.LabelFor(model => model.FirstOrDefault().filtros.dataInicial, htmlAttributes: new { @class = "control-label col-md-3 col-xs-12" })
+                            <div class="col-md-3 col-xs-12">
+                                @Html.EditorFor(model => model.FirstOrDefault().filtros.dataInicial, new { htmlAttributes = new { @class = "form-control col-md-12 col-xs-12" } })
+                            </div>
+                            @Html.LabelFor(model => model.FirstOrDefault().filtros.dataFinal, htmlAttributes: new { @class = "control-label col-md-3 col-xs-12" })
+                            <div class="col-md-3 col-xs-12">
+                                @Html.EditorFor(model => model.FirstOrDefault().filtros.dataFinal, new { htmlAttributes = new { @class = "form-control col-md-12 col-xs-12" } })
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" name="Submit" value="@ViewBag.Pesquisar" />
+                        <input type="button" class="btn btn-link" name="Submit" data-dismiss="modal" value="@ViewBag.Fechar" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /modals -->
